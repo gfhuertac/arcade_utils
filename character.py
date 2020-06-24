@@ -87,10 +87,12 @@ class PlayerCharacter(arcade.Sprite):
             self.climbing = True
         if not self.is_on_ladder and self.climbing:
             self.climbing = False
-        if self.climbing and abs(self.change_y) > 1:
-            self.cur_texture = (self.cur_texture + 1) % 8
         if self.climbing:
-            self.texture = self.climbing_textures[self.cur_texture // 4]
+            if abs(self.change_y) > 1:
+                self.cur_texture = (self.cur_texture + 1) % len(self.climbing_textures)
+            else:
+                self.cur_texture = 0
+            self.texture = self.climbing_textures[self.cur_texture][self.character_face_direction]
             return
 
         # Jumping animation
